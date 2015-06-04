@@ -804,6 +804,19 @@ class NfsNoSuitableShareFound(RemoteFSNoSuitableShareFound):
     message = _("There is no share which can host %(volume_size)sG")
 
 
+# OCFS2 driver
+class LocalFsException(RemoteFSDriver):
+    message = _("Unknown Local FS exception")
+
+
+class LocalFsNoSharesMounted(RemoteFSNoSharesMounted):
+    message = _("No mounted Local FS shares found")
+
+
+class LocalFsNoSuitableShareFound(RemoteFSNoSuitableShareFound):
+    message = _("There is no share which can host %(volume_size)sG")
+
+
 # Smbfs driver
 class SmbfsException(RemoteFSException):
     message = _("Unknown SMBFS exception.")
