@@ -66,11 +66,11 @@ class Ocfs2Driver(remotefs.RemoteFSDriver):
 
     driver_volume_type = 'ocfs2'
     driver_prefix = 'ocfs2'
-    volume_backend_name = 'Generic_ocfs2'
+    volume_backend_name = 'Generic_OCFS2'
     VERSION = VERSION
 
     def __init__(self, execute=putils.execute, *args, **kwargs):
-        self._ocfs2client = None
+        self._localfsclient = None
         super(Ocfs2Driver, self).__init__(*args, **kwargs)
         self.configuration.append_config_values(ocfs2_opts)
         root_helper = utils.get_root_helper()
@@ -84,15 +84,15 @@ class Ocfs2Driver(remotefs.RemoteFSDriver):
                        'ocfs2_mount_options',
                        CONF.ocfs2_mount_options)
 
-        self._ocfs2client = localfs_brick.Ocfs2Client(
+        self._localfsclient = localfs_brick.LocalFsClient(
             driver_volume_type, root_helper, execute=execute,
             ocfs2_mount_point_base=self.base,
             ocfs2_mount_options=opts)
 
     def set_execute(self, execute):
         super(Ocfs2Driver, self).set_execute(execute)
-        if self._ocfs2client:
-            self._ocfs2client.set_execute(execute)
+        if self._localfsclient:
+            self._localfsclient.set_execute(execute)
 
     def do_setup(self, context):
         """Any initialization the volume driver does while starting."""
